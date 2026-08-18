@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rainbow Neuro Surgical Hospital</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ==========================================================================
+           10. CLEAN MEDICAL UI & CSS VARIABLES (No Blue Gradients)
+           ========================================================================== */
+        :root {
+            /* Palette: Soft Teals, Warm Whites, Muted Earth Tones */
+            --primary: #0f766e; /* Deep Teal */
+            --primary-light: #14b8a6; /* Soft Teal */
+            --secondary: #65a30d; /* Sage Green */
+            --bg-color: #fafaf9; /* Warm White/Stone */
+            --surface: #ffffff;
+            --text-dark: #1c1917;
+            --text-muted: #57534e;
+            --border: #e7e5e4;
+            --error: #ef4444;
+            --success: #10b981;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* 9. RESPONSIVE DESIGN & TYPOGRAPHY */
+        h1, h2, h3 { color: var(--primary); font-weight: 700; margin-bottom: 1rem; }
+        p { color: var(--text-muted); margin-bottom: 1rem; }
+        a { text-decoration: none; color: var(--primary); transition: var(--transition); }
+        a:hover { color: var(--primary-light); }
+        
+        /* Navigation */
+        header {
+            background-color: var(--surface);
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-weight: 500;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary { background-color: var(--primary); color: white; }
+        .btn-primary:hover { background-color: var(--primary-light); }
+        .btn-outline { background-color: transparent; border: 2px solid var(--primary); color: var(--primary); }
+        .btn-outline:hover { background-color: var(--primary); color: white; }
+        .btn-emergency { background-color: #b91c1c; color: white; }
+        .btn-emergency:hover { background-color: #991b1b; }
+
+        /* Main Container */
+        main {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 2rem;
+            min-height: calc(100vh - 160px);
+        }
+
+        /* View Management */
+        .view-section {
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+        .view-section.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ==========================================================================
+           1. HOSPITAL HOMEPAGE
+           ========================================================================== */
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin-bottom: 4rem;
+        }
+        
+        .hero-placeholder {
+            width: 100%;
+            height: 500px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--surface) 0%, var(--bg-color) 100%);
+            border: 2px dashed var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-md);
+        }
+
+        .trust-indicators {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+        .trust-item { display: flex; flex-direction: column; }
+        .trust-item span.number { font-size: 2rem; font-weight: 700; color: var(--secondary); }
+
+        /* ==========================================================================
+           2 & 4. SPECIALIZATIONS & DOCTORS
+           ========================================================================== */
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .card {
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
+            transition: var(--transition);
+        }
+        .card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); }
+        .card i.main-icon { font-size: 2.5rem; color: var(--secondary); margin-bottom: 1rem; }
+        
+        .doctor-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: var(--bg-color);
+            border: 3px solid var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        /* ==========================================================================
+           3. HOSPITAL INFORMATION
+           ========================================================================== */
+        .info-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 3rem;
+        }
+        .info-box { background: var(--surface); padding: 2rem; border-radius: 12px; margin-bottom: 2rem; box-shadow: var(--shadow-sm); }
+        .map-placeholder {
+            width: 100%;
+            height: 300px;
+            background: var(--bg-color);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            gap: 1rem;
+        }
+
+        /* ==========================================================================
+           5 & 6 & 11. FORMS & VALIDATION (Login / Registration)
+           ========================================================================== */
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--surface);
+            padding: 3rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .form-group { margin-bottom: 1.5rem; position: relative; }
+        .form-group label { display: block; font-weight: 500; margin-bottom: 0.5rem; color: var(--text-dark); }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.1);
+        }
+        .form-control.error { border-color: var(--error); }
+        .form-control.success { border-color: var(--success); }
+        
+        .error-message {
+            color: var(--error);
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        
+        /* 7. PATIENT ID GENERATION MODAL */
+        #id-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+        .modal-content {
+            background: var(--surface);
+            padding: 3rem;
+            border-radius: 16px;
+            text-align: center;
+            max-width: 400px;
+        }
+        .generated-id {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            background: var(--bg-color);
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            letter-spacing: 2px;
+        }
+
+        /* ==========================================================================
+           8. PATIENT DASHBOARD
+           ========================================================================== */
+        .dashboard-layout {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 2rem;
+        }
+        .sidebar { background: var(--surface); padding: 2rem; border-radius: 12px; box-shadow: var(--shadow-sm); height: fit-content; }
+        .sidebar-menu { list-style: none; }
+        .sidebar-menu li { margin-bottom: 1rem; cursor: pointer; padding: 0.5rem; border-radius: 8px; transition: var(--transition); }
+        .sidebar-menu li:hover { background: var(--bg-color); color: var(--primary); }
+        
+        /* Responsive Media Queries */
+        @media (max-width: 1024px) {
+            .hero { grid-template-columns: 1fr; }
+            .hero-placeholder { height: 300px; }
+            .info-layout { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .dashboard-layout { grid-template-columns: 1fr; }
+            .form-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER / NAVIGATION -->
+    <header>
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fa-solid fa-brain"></i> Rainbow Neuro
+            </div>
+            <ul class="nav-links" id="main-nav">
+                <li><a onclick="navigate('home')" class="active">Home</a></li>
+                <li><a onclick="navigate('specializations')">Specializations</a></li>
+                <li><a onclick="navigate('info')">Hospital Info</a></li>
+                <li><a onclick="navigate('doctors')">Doctors & Services</a></li>
+            </ul>
+            <div style="display: flex; gap: 1rem;">
+                <button class="btn btn-outline" onclick="navigate('login')">Patient Portal</button>
+                <button class="btn btn-emergency"><i class="fa-solid fa-phone"></i> Emergency: 911</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- 1. HOMEPAGE VIEW -->
+        <section id="home" class="view-section active">
+            <div class="hero">
+                <div>
+                    <h1>Precision Neurosurgery for a Better Tomorrow</h1>
+                    <p>Rainbow Neuro Surgical Hospital is a premier medical facility dedicated exclusively to advanced brain, spine, and peripheral nerve treatments. We combine compassionate care with cutting-edge technology.</p>
+                    <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                        <button class="btn btn-primary" onclick="navigate('doctors')">Find a Doctor</button>
+                        <button class="btn btn-outline" onclick="navigate('register')">New Patient Registration</button>
+                    </div>
+                    
+                    <div class="trust-indicators">
+                        <div class="trust-item">
+                            <span class="number">20+</span>
+                            <span style="color: var(--text-muted); font-size: 0.9rem;">Years of Excellence</span>
+                        </div>
+                        <div class="trust-item">
+                            <span class="number">15k+</span>
+                            <span style="color: var(--text-muted); font-size: 0.9rem;">Successful Surgeries</span>
+                        </div>
+                        <div class="trust-item">
+                            <span class="number"><i class="fa-solid fa-certificate"></i></span>
+                            <span style="color: var(--text-muted); font-size: 0.9rem;">JCI Accredited</span>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <!-- Replaced Photo with Icon Placeholder -->
+                    <div class="hero-placeholder">
+                        <i class="fa-solid fa-hospital-user" style="font-size: 8rem; color: var(--primary-light); opacity: 0.5;"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. SPECIALIZATIONS VIEW -->
+        <section id="specializations" class="view-section">
+            <h2>Neuro-Surgical Specializations</h2>
+            <p>Our multidisciplinary team leverages the latest technology to perform complex procedures safely.</p>
+            
+            <div class="grid-cards">
+                <div class="card">
+                    <i class="fa-solid fa-brain main-icon"></i>
+                    <h3>Brain Surgery</h3>
+                    <p>Advanced treatment for aneurysms, tumors, vascular malformations, and functional disorders using neuro-navigation systems.</p>
+                </div>
+                <div class="card">
+                    <i class="fa-solid fa-bone main-icon"></i>
+                    <h3>Spine Surgery</h3>
+                    <p>Comprehensive care for spinal stenosis, herniated discs, and spinal deformities, prioritizing minimally invasive techniques.</p>
+                </div>
+                <div class="card">
+                    <i class="fa-solid fa-microscope main-icon"></i>
+                    <h3>Neuro-Oncology</h3>
+                    <p>Targeted surgical interventions for brain and spinal cord tumors, working in tandem with oncologists for comprehensive care.</p>
+                </div>
+                <div class="card">
+                    <i class="fa-solid fa-child main-icon"></i>
+                    <h3>Pediatric Neurosurgery</h3>
+                    <p>Specialized, gentle care for congenital anomalies, hydrocephalus, and pediatric tumors in a child-friendly environment.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. HOSPITAL INFO VIEW -->
+        <section id="info" class="view-section">
+            <h2>Hospital Information</h2>
+            <div class="info-layout">
+                <div>
+                    <div class="info-box">
+                        <h3>Our History & Mission</h3>
+                        <p>Established in 2005, Rainbow Neuro Surgical Hospital was founded with a singular vision: to bring world-class neurological care to our community. Our mission is to restore neurological function and improve the quality of life for our patients through ethical, evidence-based practices.</p>
+                    </div>
+                    <div class="info-box">
+                        <h3>Facilities & Infrastructure</h3>
+                        <p>Our 150-bed facility features 8 ultra-modern operation theaters equipped with intraoperative MRI, neuro-navigation systems, and highly advanced neuromonitoring setups. Our 24/7 Neuro-ICU maintains a 1:1 nurse-to-patient ratio.</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="info-box">
+                        <h3>Visiting Hours</h3>
+                        <ul style="list-style: none; margin-bottom: 1rem; color: var(--text-muted);">
+                            <li><strong>General Wards:</strong> 10:00 AM - 12:00 PM & 4:00 PM - 7:00 PM</li>
+                            <li><strong>Neuro ICU:</strong> 11:00 AM - 12:00 PM (Immediate family only)</li>
+                        </ul>
+                        <h3>Location</h3>
+                        <div class="map-placeholder">
+                            <i class="fa-solid fa-map-location-dot" style="font-size: 2rem;"></i> 
+                            <span>Interactive Map Area</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. DOCTORS & SERVICES VIEW -->
+        <section id="doctors" class="view-section">
+            <h2>Our Medical Team</h2>
+            <div class="grid-cards">
+                <div class="card doctor-card">
+                    <!-- Replaced Photo with Avatar Placeholder -->
+                    <div class="doctor-avatar">
+                        <i class="fa-solid fa-user-doctor"></i>
+                    </div>
+                    <h3>Dr. Alan Smith, MD</h3>
+                    <p><strong>Chief of Neurosurgery</strong></p>
+                    <p style="font-size: 0.9rem;">20+ years experience specializing in complex skull base tumors and cerebrovascular surgery.</p>
+                    <button class="btn btn-outline" style="width: 100%; margin-top: 1rem;">View Profile</button>
+                </div>
+                <div class="card doctor-card">
+                    <!-- Replaced Photo with Avatar Placeholder -->
+                    <div class="doctor-avatar">
+                        <i class="fa-solid fa-user-doctor"></i>
+                    </div>
+                    <h3>Dr. Sarah Jenkins, PhD</h3>
+                    <p><strong>Head of Spinal Surgery</strong></p>
+                    <p style="font-size: 0.9rem;">Pioneer in minimally invasive spine surgery. Educated at Johns Hopkins with thousands of successful procedures.</p>
+                    <button class="btn btn-outline" style="width: 100%; margin-top: 1rem;">View Profile</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. LOGIN VIEW -->
+        <section id="login" class="view-section">
+            <div class="form-container">
+                <h2 style="text-align: center;">Patient & Staff Portal</h2>
+                <form id="loginForm" onsubmit="handleLogin(event)" novalidate>
+                    <div class="form-group">
+                        <label>Email or Patient ID</label>
+                        <input type="text" class="form-control" id="loginId" required>
+                        <span class="error-message">Please enter a valid Patient ID or Email.</span>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" class="form-control" id="loginPwd" required>
+                        <span class="error-message">Password is required.</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                        <label style="font-weight: normal; font-size: 0.9rem;"><input type="checkbox"> Remember me</label>
+                        <a href="#" style="font-size: 0.9rem;">Forgot Password?</a>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">Secure Login</button>
+                </form>
+                <p style="text-align: center; margin-top: 2rem; font-size: 0.9rem;">
+                    Don't have an account? <a onclick="navigate('register')" style="cursor:pointer; font-weight: 600;">Register here</a>
+                </p>
+            </div>
+        </section>
+
+        <!-- 6. PATIENT REGISTRATION VIEW -->
+        <section id="register" class="view-section">
+            <div class="form-container" style="max-width: 800px;">
+                <h2>New Patient Registration</h2>
+                <p>Please complete the form below to register. Fields marked with * are required.</p>
+                <form id="registrationForm" onsubmit="handleRegistration(event)" novalidate>
+                    
+                    <h3 style="font-size: 1.1rem; margin-top: 2rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;">Personal Details</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Full Name *</label>
+                            <input type="text" class="form-control" id="regName" required pattern="[a-zA-Z\s]{3,}">
+                            <span class="error-message">Please enter a valid full name.</span>
+                        </div>
+                        <div class="form-group">
+                            <label>Date of Birth *</label>
+                            <input type="date" class="form-control" id="regDob" required>
+                            <span class="error-message">Date of birth is required.</span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Email Address *</label>
+                            <input type="email" class="form-control" id="regEmail" required>
+                            <span class="error-message">Please enter a valid email address.</span>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone Number *</label>
+                            <input type="tel" class="form-control" id="regPhone" required pattern="[0-9]{10,14}" placeholder="e.g. 1234567890">
+                            <span class="error-message">Please enter a valid 10+ digit phone number.</span>
+                        </div>
+                    </div>
+
+                    <h3 style="font-size: 1.1rem; margin-top: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;">Medical Information</h3>
+                    <div class="form-group">
+                        <label>Reason for Visit *</label>
+                        <select class="form-control" id="regReason" required>
+                            <option value="">Select a reason...</option>
+                            <option value="consult">General Consultation</option>
+                            <option value="spine">Spinal Pain / Injury</option>
+                            <option value="brain">Neurological Symptoms</option>
+                            <option value="postop">Post-Op Follow-up</option>
+                        </select>
+                        <span class="error-message">Please select a reason for your visit.</span>
+                    </div>
+                    <div class="form-group">
+                        <label>Known Allergies (if any)</label>
+                        <input type="text" class="form-control" placeholder="e.g. Penicillin, Latex">
+                    </div>
+                    <div class="form-group">
+                        <label>Create a Portal Password *</label>
+                        <input type="password" class="form-control" id="regPwd" required minlength="8">
+                        <span class="error-message">Password must be at least 8 characters.</span>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 1rem;">Complete Registration</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- 8. PATIENT DASHBOARD VIEW -->
+        <section id="dashboard" class="view-section">
+            <div class="dashboard-layout">
+                <aside class="sidebar">
+                    <div style="text-align: center; margin-bottom: 2rem;">
+                        <div style="width: 80px; height: 80px; background: var(--primary-light); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin: 0 auto 1rem auto;">
+                            JD
+                        </div>
+                        <h3 style="margin-bottom: 0;">John Doe</h3>
+                        <p style="font-size: 0.875rem;">Patient ID: RNSH-2026-X1Y2</p>
+                    </div>
+                    <ul class="sidebar-menu">
+                        <li style="color: var(--primary); font-weight: 600;"><i class="fa-solid fa-house" style="margin-right: 10px;"></i> Overview</li>
+                        <li><i class="fa-solid fa-calendar-check" style="margin-right: 10px;"></i> Appointments</li>
+                        <li><i class="fa-solid fa-flask" style="margin-right: 10px;"></i> Test Results</li>
+                        <li><i class="fa-solid fa-pills" style="margin-right: 10px;"></i> Medications</li>
+                        <li><i class="fa-solid fa-message" style="margin-right: 10px;"></i> Messages</li>
+                        <li onclick="navigate('home')" style="color: var(--error); margin-top: 2rem;"><i class="fa-solid fa-right-from-bracket" style="margin-right: 10px;"></i> Logout</li>
+                    </ul>
+                </aside>
+                <div class="dashboard-content">
+                    <h2>Welcome back, John</h2>
+                    <div class="grid-cards" style="margin-top: 1rem;">
+                        <div class="card" style="border-left: 4px solid var(--primary);">
+                            <h3>Upcoming Appointment</h3>
+                            <p style="color: var(--text-dark); font-weight: 500;">Dr. Sarah Jenkins - Spine Consultation</p>
+                            <p><i class="fa-regular fa-calendar"></i> August 22, 2026 at 10:00 AM</p>
+                            <button class="btn btn-outline btn-sm">Reschedule</button>
+                        </div>
+                        <div class="card" style="border-left: 4px solid var(--secondary);">
+                            <h3>Recent Test Results</h3>
+                            <p style="color: var(--text-dark); font-weight: 500;">Lumbar MRI Scan</p>
+                            <p>Status: <span style="color: var(--success); font-weight: 600;">Available</span></p>
+                            <button class="btn btn-outline btn-sm">View Report</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 7. PATIENT ID MODAL -->
+    <div id="id-modal">
+        <div class="modal-content">
+            <i class="fa-solid fa-circle-check" style="font-size: 4rem; color: var(--success); margin-bottom: 1rem;"></i>
+            <h2>Registration Successful</h2>
+            <p>Your unique Patient Identification Number has been generated. Please save this for future visits and portal access.</p>
+            <div class="generated-id" id="displayPatientId"></div>
+            <div style="display: flex; gap: 1rem; justify-content: center;">
+                <button class="btn btn-primary" onclick="closeModalAndLogin()"><i class="fa-solid fa-right-to-bracket"></i> Go to Dashboard</button>
+                <button class="btn btn-outline" onclick="window.print()"><i class="fa-solid fa-print"></i> Print ID</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JS LOGIC -->
+    <script>
+        // --- 9. SPA NAVIGATION LOGIC ---
+        function navigate(viewId) {
+            // Hide all sections
+            document.querySelectorAll('.view-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            // Show target
+            document.getElementById(viewId).classList.add('active');
+            
+            // Update active nav link
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Highlight nav if it exists
+            const activeLink = document.querySelector(`.nav-links a[onclick="navigate('${viewId}')"]`);
+            if(activeLink) activeLink.classList.add('active');
+            
+            window.scrollTo(0,0);
+        }
+
+        // --- 11. FORM VALIDATION LOGIC ---
+        function validateInput(input) {
+            const errorSpan = input.nextElementSibling;
+            if (input.checkValidity()) {
+                input.classList.remove('error');
+                input.classList.add('success');
+                if(errorSpan && errorSpan.classList.contains('error-message')) {
+                    errorSpan.style.display = 'none';
+                }
+                return true;
+            } else {
+                input.classList.remove('success');
+                input.classList.add('error');
+                if(errorSpan && errorSpan.classList.contains('error-message')) {
+                    errorSpan.style.display = 'block';
+                }
+                return false;
+            }
+        }
+
+        // Apply real-time validation to all required inputs
+        document.querySelectorAll('input[required], select[required]').forEach(input => {
+            input.addEventListener('blur', () => validateInput(input));
+            input.addEventListener('input', () => {
+                if(input.classList.contains('error')) validateInput(input);
+            });
+        });
+
+        // --- 6 & 7. REGISTRATION & ID GENERATION ---
+        function handleRegistration(e) {
+            e.preventDefault();
+            const form = e.target;
+            let isValid = true;
+
+            // Validate all fields on submit
+            form.querySelectorAll('input[required], select[required]').forEach(input => {
+                if(!validateInput(input)) isValid = false;
+            });
+
+            if(isValid) {
+                // Generate Patient ID: Format RNSH-YYYY-XXXX
+                const year = new Date().getFullYear();
+                const randomStr = Math.random().toString(36).substring(2, 6).toUpperCase();
+                const newPatientId = `RNSH-${year}-${randomStr}`;
+                
+                // Show Modal
+                document.getElementById('displayPatientId').innerText = newPatientId;
+                document.getElementById('id-modal').style.display = 'flex';
+                form.reset();
+                
+                // Reset styling
+                form.querySelectorAll('.success').forEach(el => el.classList.remove('success'));
+            }
+        }
+
+        function closeModalAndLogin() {
+            document.getElementById('id-modal').style.display = 'none';
+            navigate('dashboard');
+        }
+
+        // --- 5. LOGIN MOCK LOGIC ---
+        function handleLogin(e) {
+            e.preventDefault();
+            const form = e.target;
+            let isValid = true;
+
+            form.querySelectorAll('input[required]').forEach(input => {
+                if(!validateInput(input)) isValid = false;
+            });
+
+            if(isValid) {
+                // Mock success routing to dashboard
+                form.reset();
+                form.querySelectorAll('.success').forEach(el => el.classList.remove('success'));
+                navigate('dashboard');
+            }
+        }
+    </script>
+</body>
+</html>
